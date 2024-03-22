@@ -19,23 +19,11 @@ const slides = [
 
 const arrowLeft = document.getElementById("arrow_left");
 const arrowRight = document.getElementById("arrow_right");
-const dotsContainer = document.getElementById("dots")
+const dotsContainer = document.getElementById("dots");
 
+let bannerImgElement = document.getElementById("banner-img");
+let indiceGlobal = 0;
 
-
-
-let bannerImgElement = document.getElementById("banner-img")
-let indiceGlobal = 0
-
-
-function listenToSwipeAction(){
-	arrowLeft.addEventListener("click", function(){
-	prevSlide()
-	})
-	arrowRight.addEventListener("click", function(){
-	nextSlide()
-	})
-}
 
 function createDots(){
 	for (let i = 0; i < slides.length; i++){
@@ -50,51 +38,57 @@ function createDots(){
 	dots[0].classList.add('dot_selected')
 }
 
-listenToSwipeAction() 
+function updateDots(index) {
+	const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, i) => {
+		if (i === index) {
+			dot.classList.add('dot_selected');
+        } else {
+			dot.classList.remove('dot_selected');
+        }
+    })
+}
 
+function behaviorDot(index){
+	let imageName = slides[index].image;
+	let imageDescription = slides[index].tagLine;
+	bannerImgElement.src="./assets/images/slideshow/"+ imageName;
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(index);
+}
+
+function prevSlide(){
+	indiceGlobal = (indiceGlobal - 1 +slides.length) % slides.length;
+	let imageName = slides[indiceGlobal].image;
+	let imageDescription = slides[indiceGlobal].tagLine;
+	bannerImgElement.src="./assets/images/slideshow/"+ imageName;
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(indiceGlobal);
+}
+
+function nextSlide(){
+	indiceGlobal = (indiceGlobal + 1) % slides.length;
+	let imageName = slides[indiceGlobal].image;
+	let imageDescription = slides[indiceGlobal].tagLine;
+	bannerImgElement.src="./assets/images/slideshow/"+ imageName;
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(indiceGlobal);
+}
+
+function listenToSwipeAction(){
+	arrowLeft.addEventListener("click", function(){
+	prevSlide();
+	})
+	arrowRight.addEventListener("click", function(){
+	nextSlide();
+	})
+}
+
+listenToSwipeAction() 
 
 createDots()
 
 
-
-function behaviorDot(index){
-	let imageName = slides[index].image
-	let imageDescription = slides[index].tagLine
-	bannerImgElement.src="./assets/images/slideshow/"+ imageName
-	document.querySelector('p').innerHTML = imageDescription;
-	updateDots(index)
-}
-
-function nextSlide(){
-	indiceGlobal = (indiceGlobal + 1) % slides.length
-	let imageName = slides[indiceGlobal].image
-	let imageDescription = slides[indiceGlobal].tagLine
-	bannerImgElement.src="./assets/images/slideshow/"+ imageName
-	document.querySelector('p').innerHTML = imageDescription;
-	updateDots(indiceGlobal)
-}
-
-function prevSlide(){
-	indiceGlobal = (indiceGlobal - 1 +slides.length) % slides.length
-	let imageName = slides[indiceGlobal].image
-	let imageDescription = slides[indiceGlobal].tagLine
-	bannerImgElement.src="./assets/images/slideshow/"+ imageName
-	document.querySelector('p').innerHTML = imageDescription;
-	updateDots(indiceGlobal)
-}
-
-function updateDots(index) {
-	const dots = document.querySelectorAll(".dot")
-    dots.forEach((dot, i) => {
-        if (i === index) {
-            dot.classList.add('dot_selected')
-        } else {
-            dot.classList.remove('dot_selected')
-        }
-    });
- }
-
- 
 
 
 
