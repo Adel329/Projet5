@@ -21,61 +21,80 @@ const arrowLeft = document.getElementById("arrow_left");
 const arrowRight = document.getElementById("arrow_right");
 const dotsContainer = document.getElementById("dots")
 
-console.log(arrowLeft)
-console.log(arrowRight)
-console.log(dots)
+
 
 
 let bannerImgElement = document.getElementById("banner-img")
-
 let indiceGlobal = 0
+
 
 function listenToSwipeAction(){
 	arrowLeft.addEventListener("click", function(){
-	console.log("click left")
+	prevSlide()
 	})
 	arrowRight.addEventListener("click", function(){
-	console.log("click right")
+	nextSlide()
 	})
-
 }
-
-listenToSwipeAction() 
-	arrowRight.addEventListener("click", () => {
-		bannerImgElement.setAttribute("src", "./assets/images/slideshow/slide2.jpg")
-	})	
-	arrowLeft.addEventListener("click", () => {
-		slides[i]
-		++i
-	})
-	// dots.addEventListener("click", () => {
-	// 	dots[i]
-	// 	++i
-	// })
 
 function createDots(){
 	for (let i = 0; i < slides.length; i++){
 		const dot = document.createElement("span");
-		dot.id = "dot"+i
+		dot.id = "dot"+i;
 		dot.className = "dot";
 		dotsContainer.appendChild(dot);
-		dot.addEventListener("click", () => behaviorDot(i))
+		dot.addEventListener("click", () => behaviorDot(i));
 	}
-	
+
+	const dots = document.querySelectorAll(".dot")
+	dots[0].classList.add('dot_selected')
 }
+
+listenToSwipeAction() 
+
 
 createDots()
 
+
+
 function behaviorDot(index){
 	let imageName = slides[index].image
+	let imageDescription = slides[index].tagLine
 	bannerImgElement.src="./assets/images/slideshow/"+ imageName
-console.log(slides[index].image)
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(index)
 }
 
-	
+function nextSlide(){
+	indiceGlobal = (indiceGlobal + 1) % slides.length
+	let imageName = slides[indiceGlobal].image
+	let imageDescription = slides[indiceGlobal].tagLine
+	bannerImgElement.src="./assets/images/slideshow/"+ imageName
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(indiceGlobal)
+}
 
+function prevSlide(){
+	indiceGlobal = (indiceGlobal - 1 +slides.length) % slides.length
+	let imageName = slides[indiceGlobal].image
+	let imageDescription = slides[indiceGlobal].tagLine
+	bannerImgElement.src="./assets/images/slideshow/"+ imageName
+	document.querySelector('p').innerHTML = imageDescription;
+	updateDots(indiceGlobal)
+}
 
+function updateDots(index) {
+	const dots = document.querySelectorAll(".dot")
+    dots.forEach((dot, i) => {
+        if (i === index) {
+            dot.classList.add('dot_selected')
+        } else {
+            dot.classList.remove('dot_selected')
+        }
+    });
+ }
 
+ 
 
 
 
